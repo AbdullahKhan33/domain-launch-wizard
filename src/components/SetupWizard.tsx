@@ -16,12 +16,12 @@ interface SetupWizardProps {
 }
 
 const steps = [
-  { number: 1, title: 'Domain Name', description: 'Enter your email domain' },
-  { number: 2, title: 'DNS Records', description: 'Configure authentication' },
-  { number: 3, title: 'Sender Profile', description: 'Set sender details' },
-  { number: 4, title: 'Branding', description: 'Customize appearance' },
-  { number: 5, title: 'Test Email', description: 'Send a test' },
-  { number: 6, title: 'Finish', description: 'You\'re all set!' },
+  { number: 1, title: 'Domain', description: 'Enter domain' },
+  { number: 2, title: 'DNS', description: 'Configure DNS' },
+  { number: 3, title: 'Sender', description: 'Set sender' },
+  { number: 4, title: 'Brand', description: 'Customize' },
+  { number: 5, title: 'Test', description: 'Send test' },
+  { number: 6, title: 'Finish', description: 'Complete' },
 ];
 
 const SetupWizard: React.FC<SetupWizardProps> = ({ 
@@ -267,45 +267,41 @@ const SetupWizard: React.FC<SetupWizardProps> = ({
 
   return (
     <div>
-      {/* Step Indicator */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
+      {/* Step Indicator - Fixed overflow */}
+      <div className="mb-8 overflow-x-auto">
+        <div className="flex items-center justify-between min-w-max px-2">
           {steps.map((step, index) => (
-            <div key={step.number} className="flex items-center">
-              <div
-                className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
-                  currentStep >= step.number
-                    ? "bg-blue-600 text-white"
-                    : currentStep === step.number - 1
-                    ? "bg-blue-100 text-blue-600 border-2 border-blue-600"
-                    : "bg-gray-200 text-gray-500"
-                )}
-              >
-                {currentStep > step.number ? (
-                  <Check className="w-4 h-4" />
-                ) : (
-                  step.number
-                )}
+            <div key={step.number} className="flex items-center flex-shrink-0">
+              <div className="text-center">
+                <div
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium mb-2 mx-auto",
+                    currentStep >= step.number
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 text-gray-500"
+                  )}
+                >
+                  {currentStep > step.number ? (
+                    <Check className="w-4 h-4" />
+                  ) : (
+                    step.number
+                  )}
+                </div>
+                <div className="text-xs">
+                  <div className="font-medium text-gray-900">{step.title}</div>
+                  <div className="text-gray-500">{step.description}</div>
+                </div>
               </div>
               {index < steps.length - 1 && (
                 <div
                   className={cn(
-                    "w-12 h-0.5 mx-2",
+                    "w-12 h-0.5 mx-4 flex-shrink-0",
                     currentStep > step.number ? "bg-blue-600" : "bg-gray-200"
                   )}
                 />
               )}
             </div>
           ))}
-        </div>
-        <div className="mt-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            {steps[currentStep - 1]?.title}
-          </h2>
-          <p className="text-sm text-gray-600">
-            {steps[currentStep - 1]?.description}
-          </p>
         </div>
       </div>
 

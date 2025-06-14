@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Sidebar from '@/components/Sidebar';
@@ -53,30 +53,28 @@ const EmailDomainSetup = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Setup Wizard */}
-              <div className="space-y-6">
-                <Card className="p-6">
-                  <SetupWizard 
-                    currentStep={currentStep}
-                    onStepChange={handleStepChange}
-                    data={setupData}
-                    onDataUpdate={handleDataUpdate}
-                  />
-                </Card>
-              </div>
-
-              {/* Verification Panel */}
-              <div className="space-y-6">
-                <VerificationPanel 
-                  data={setupData}
-                  currentStep={currentStep}
-                />
-              </div>
-            </div>
+        <div className="flex-1 flex">
+          {/* Setup Wizard - Full width */}
+          <div className="flex-1">
+            <Card className="h-full rounded-none border-0 shadow-none">
+              <SetupWizard 
+                currentStep={currentStep}
+                onStepChange={handleStepChange}
+                data={setupData}
+                onDataUpdate={handleDataUpdate}
+              />
+            </Card>
           </div>
+
+          {/* Verification Panel - Right side */}
+          {currentStep === 2 && (
+            <div className="w-96 border-l border-gray-200 bg-white p-6">
+              <VerificationPanel 
+                data={setupData}
+                currentStep={currentStep}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -266,66 +266,76 @@ const SetupWizard: React.FC<SetupWizardProps> = ({
   };
 
   return (
-    <div>
-      {/* Step Indicator - Fixed overflow */}
-      <div className="mb-8 overflow-x-auto">
-        <div className="flex items-center justify-between min-w-max px-2">
-          {steps.map((step, index) => (
-            <div key={step.number} className="flex items-center flex-shrink-0">
-              <div className="text-center">
-                <div
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium mb-2 mx-auto",
-                    currentStep >= step.number
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-200 text-gray-500"
-                  )}
-                >
-                  {currentStep > step.number ? (
-                    <Check className="w-4 h-4" />
-                  ) : (
-                    step.number
-                  )}
-                </div>
-                <div className="text-xs">
-                  <div className="font-medium text-gray-900">{step.title}</div>
-                  <div className="text-gray-500">{step.description}</div>
-                </div>
-              </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={cn(
-                    "w-12 h-0.5 mx-4 flex-shrink-0",
-                    currentStep > step.number ? "bg-blue-600" : "bg-gray-200"
-                  )}
-                />
+    <div className="flex h-full">
+      {/* Left Navigation */}
+      <div className="w-80 bg-white border-r border-gray-200 p-6">
+        <div className="space-y-4">
+          {steps.map((step) => (
+            <div
+              key={step.number}
+              className={cn(
+                "flex items-center gap-4 p-4 rounded-lg cursor-pointer transition-colors",
+                currentStep >= step.number
+                  ? "bg-blue-50 border border-blue-200"
+                  : "bg-gray-50 hover:bg-gray-100"
               )}
+              onClick={() => onStepChange(step.number)}
+            >
+              <div
+                className={cn(
+                  "w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium",
+                  currentStep >= step.number
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-500"
+                )}
+              >
+                {currentStep > step.number ? (
+                  <Check className="w-4 h-4" />
+                ) : (
+                  step.number
+                )}
+              </div>
+              <div className="flex-1">
+                <div className="font-medium text-gray-900">{step.title}</div>
+                <div className="text-sm text-gray-500">{step.description}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Step Content */}
-      <div className="mb-8">
-        {renderStepContent()}
-      </div>
+      {/* Right Content */}
+      <div className="flex-1 p-8">
+        <div className="max-w-2xl">
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+              {steps[currentStep - 1]?.title}
+            </h2>
+            <p className="text-gray-600">{steps[currentStep - 1]?.description}</p>
+          </div>
 
-      {/* Navigation Buttons */}
-      <div className="flex justify-between">
-        <Button
-          variant="outline"
-          onClick={handlePrevious}
-          disabled={currentStep === 1}
-        >
-          Previous
-        </Button>
-        <Button
-          onClick={handleNext}
-          disabled={currentStep === 6}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
-          {currentStep === 6 ? 'Complete' : 'Next'}
-        </Button>
+          <div className="mb-8">
+            {renderStepContent()}
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between">
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentStep === 1}
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={handleNext}
+              disabled={currentStep === 6}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {currentStep === 6 ? 'Complete' : 'Next'}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
